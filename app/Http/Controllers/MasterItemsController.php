@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\MasterItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MasterItemsController extends Controller
 {
     public function index()
-    {
+    { 
+        
         return view('master_items.index.index');
     }
 
@@ -30,7 +34,7 @@ class MasterItemsController extends Controller
 
         return json_encode([
             'status' => 200,
-            'data' => $data_search
+            'data' => $data_search 
         ]);
     }
 
@@ -54,7 +58,16 @@ class MasterItemsController extends Controller
 
     public function formSubmit(Request $request, $method, $id = 0)
     {
-        if ($method == 'new') {
+        $request->validate([
+            'nama' => 'required',
+            'harga_beli' => 'required|numeric',
+            'laba' => 'required|numeric',
+            'supplier' => 'required',
+            'jenis' => 'required',
+            'image' => 'nullable|image|max:2048',
+        ]);
+        
+            if ($method == 'new') {
             $data_item = new MasterItem;
             $kode = MasterItem::count('id');
             $kode = $kode + 1;
@@ -64,6 +77,14 @@ class MasterItemsController extends Controller
             $data_item = MasterItem::find($id);
             $kode = $data_item->kode;
         }
+        $kategori = Kategori::all();
+
+        if ($request->hasFile('image')) {
+             $file = $request->file('image');
+             $filename = time().'_'.$file->getClientOriginalName();
+            $file->storeAs('public/items', $filename);
+            $data_item->image = $filename;
+        }
 
         $data_item->nama = $request->nama;
         $data_item->harga_beli = $request->harga_beli;
@@ -71,9 +92,13 @@ class MasterItemsController extends Controller
         $data_item->kode = $kode;
         $data_item->supplier = $request->supplier;
         $data_item->jenis = $request->jenis;
+        $data_item->kategori_id = $request->kategori_id;
         $data_item->save();
 
-        return redirect('master-items');
+        return redirect('master-items',);
+        
+
+        
     }
 
     public function delete($id)
@@ -111,5 +136,19 @@ class MasterItemsController extends Controller
         $array = ['Obat','Alkes','Matkes','Umum','ATK'];
         $random = rand(0,4);
         return $array[$random];
+    }
+
+    public function kategoricreate(Request $request)
+    {
+        $validate = $request->validate([
+            'name' => 'required|string'
+        ]);
+
+       $kategori = Kategori::create([
+            'nama' => $validate['nama'],
+        ]);
+
+        return redirect('kategori-items');
+
     }
 }

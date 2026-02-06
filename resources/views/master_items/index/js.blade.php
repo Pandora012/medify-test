@@ -8,7 +8,7 @@
     var data_per_fetch = 500;
     var data_fetched = 0;
 
-    $(document).ready(function() {
+    $(document).ready(function() { 
         $('#table').DataTable({
             searching: false,
             order: [[0, 'desc']],

@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     @csrf
     @if($method == 'edit')
     <div class="form-group">
@@ -43,9 +43,21 @@
             <option @if($selected == 'Obat') selected @endif>Obat</option>
             <option @if($selected == 'Alkes') selected @endif>Alkes</option>
             <option @if($selected == 'Matkes') selected @endif>Matkes</option>
-            <optio @if($selected == 'Umum') selected @endif>Umum</option>
-            <optio @if($selected == 'ATK') selected @endif>ATK</option>
+            <option @if($selected == 'Umum') selected @endif>Umum</option>
+            <option @if($selected == 'ATK') selected @endif>ATK</option>
         </select>
+    </div>
+
+    <div class="form-group">
+        <label>Upload Gambar</label>
+        <input type="file" class="form-control" name="image" required  value="">
+    </div>
+      <div class="form-group">
+        <label>Kategori</label>
+        @foreach ($kategori as $item)
+            
+        @endforeach
+        <input type="number" class="form-control" name="kategory_id" required  value={{$item->kategori_id ?? ''}}>
     </div>
 
     <button class="btn btn-primary mt-3">Submit</button>

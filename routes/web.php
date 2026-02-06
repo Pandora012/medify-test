@@ -29,5 +29,13 @@ Route::post('/master-items/form/{method}/{id?}', [App\Http\Controllers\MasterIte
 Route::get('/master-items/view/{kode}', [App\Http\Controllers\MasterItemsController::class, 'singleView']);
 Route::get('/master-items/delete/{id}', [App\Http\Controllers\MasterItemsController::class, 'delete']);
 
+Route::get('/kategori-list', [App\Http\Controllers\KategoriController::class, 'index'])->name('kategoi-list');
+Route::get('/kategori-list/all', [App\Http\Controllers\KategoriController::class, 'getkategori'])->name('kategoi-all');
+Route::get('/master-items/kategori/{method}/{id?}', [App\Http\Controllers\KategoriController::class, 'formView']);
+Route::post('/master-items/kategori/{method}/{id?}', [App\Http\Controllers\KategoriController::class, 'kategoricreate']);
+
+Route::get('/master-items/view/{kode}', [App\Http\Controllers\KategoriController::class, 'singleView']);
+Route::get('/master-items/delete/{id}', [App\Http\Controllers\KategoriController::class, 'delete']);
+
 
 Route::get('/master-items/update-random-data', [App\Http\Controllers\MasterItemsController::class, 'updateRandomData']);

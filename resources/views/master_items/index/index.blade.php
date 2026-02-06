@@ -7,6 +7,9 @@
             <div class="form-group mb-2">
                 <a href="{{url('master-items/form/new')}}" class="btn btn-secondary">+ Master Items Baru</a>
             </div>
+            <div class="form-group mb-2">
+                <a href="{{url('master-items/kategori/new')}}" class="btn btn-secondary">+ Kategori Baru</a>
+            </div>
             <div class="card">
                 <div class="card-header">Daftar Master Items</div>
 
